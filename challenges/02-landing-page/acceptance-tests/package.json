@@ -1,0 +1,21 @@
+{
+  "name": "landing-page-tests",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "jest --verbose --forceExit",
+    "test:ci": "jest --verbose --forceExit --ci"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "testTimeout": 30000,
+    "clearMocks": true
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "@types/jest": "^29.5.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "jsdom": "^25.0.0"
+  }
+}

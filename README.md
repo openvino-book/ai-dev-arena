@@ -2,33 +2,30 @@
 
 > **人类 vs AI：同一个开发任务，谁更快？谁更好？**
 > 
-> 用 OpenClaw + GLM-5 指挥 Claude Code 完成真实开发挑战，与人类基准全程对比。
+> 用 Claude Code 完成真实开发挑战，全程自动化测试验收，可复现。
 
-[![Open Challenges](https://img.shields.io/badge/Challenges-6-orange)](#-challenge-list)
-[![Models Tested](https://img.shields.io/badge/Models-4-green)](#-benchmark-results)
+[![Challenges](https://img.shields.io/badge/Challenges-4/6-orange)](#-challenge-list)
+[![Tests](https://img.shields.io/badge/Tests-62%2F62-brightgreen)](#-challenge-list)
 [![MIT License](https://img.shields.io/badge/License-MIT-blue)](LICENSE)
 
 ## ⚡ 30 秒看结果
 
-| 挑战 | 人类 | GLM-5 + Claude Opus 4.6 | 提升 | 成本 |
-|------|------|------------------------|------|------|
-| Todo REST API | 2h 15min | 12min | **11x** | $0.31 |
-| 认证系统 | 4h 30min | 22min | **12x** | $0.58 |
-| 落地页 | 3h | 6min | **30x** | $0.12 |
-| 实时聊天 | 6h | 31min | **11x** | $0.82 |
-| 电商结账 | 5h | 38min | **7.9x** | $0.67 |
-| PR 自动修复 | 45min/task | 8min | **5.6x** | $0.15/个 |
+| # | 挑战 | 测试 | AI 耗时 | 代码量 | 文件数 |
+|---|------|------|---------|--------|--------|
+| 0 | Todo REST API | 22/22 ✅ | **4 min 1s** | ~300 行 TS | 1 |
+| 1 | Auth System (JWT+RBAC) | 17/17 ✅ | **~3 min** | ~350 行 TS | 2 |
+| 2 | Landing Page | 12/12 ✅ | **~3 min** | ~400 行 HTML/CSS/JS | 2 |
+| 3 | Real-time Chat (WebSocket) | 11/11 ✅ | **~8 min** | ~300 行 TS | 1 |
 
-> 📊 AI 平均测试通过率 94% vs 人类手动 91%（人类更容易遗漏边界 case）
-> 💰 5 个完整挑战总成本：$2.31
+> 🤖 **全部 4 个挑战，62/62 测试通过，零人工干预**
+> ⏱ **并行执行总耗时：8 分钟**（最慢的 Chat 跑完即结束）
+> 💰 预估总成本：~$1.50（Claude Opus 4.6）
 
 ## 🎬 演示
 
 > 飞书发一条消息 → GLM-5 拆解任务 → Claude Code 写代码 → 测试通过 → 自动提交 → 通知结果
 > 
-> 全程无人干预，12 分钟完成一个 Todo REST API
-
-[![Demo](assets/hero-demo.gif)](assets/hero-demo.gif)
+> 全程无人干预，4 分钟完成一个 Todo REST API
 
 ## 🚀 一键复现
 
@@ -37,21 +34,19 @@
 git clone https://github.com/openvino-book/ai-dev-arena.git
 cd ai-dev-arena
 
-# 2. 安装依赖
-npm install -g openclaw@latest
+# 2. 安装 Claude Code
 npm install -g @anthropic-ai/claude-code
 
 # 3. 配置 API Key
 export ANTHROPIC_API_KEY=sk-ant-...
 
-# 4. 运行所有挑战
-./orchestrator/scripts/benchmark-all.sh
+# 4. 运行单个挑战
+cd challenges/00-todo-api
+claude --permission-mode bypassPermissions --print "Read SPEC.md, implement in src/, pass all tests in acceptance-tests/"
 
-# 5. 查看结果
-open dashboard/index.html
+# 5. 运行测试
+cd acceptance-tests && npm install && npx jest
 ```
-
-详见 [完整安装指南](docs/setup.md)
 
 ## 🧠 编排架构
 
@@ -72,7 +67,7 @@ GLM-5 ← 复审
     ↓ Code Review → 发现问题 → 要求修复
     ↓ 全部通过 → 通知你
 你
-    ← "✅ 完成，12 分钟，$0.31"
+    ← "✅ 完成，4 分钟，62/62 测试通过"
 ```
 
 ### 为什么是 GLM-5 + Claude Code 而不是纯 Claude？
@@ -87,58 +82,61 @@ GLM-5 ← 复审
 
 ## 🎯 Challenge 列表
 
-### Challenge 0: Todo REST API ⭐
+### ✅ Challenge 0: Todo REST API ⭐
 > 构建带 CRUD、分页、搜索、软删除的 REST API
-- 验收测试：23 个
-- [查看详情](challenges/00-todo-api/)
+- 验收测试：22 个 | AI 结果：22/22 | 耗时：4m 1s
+- [查看详情](challenges/00-todo-api/SPEC.md) | [AI 实现](challenges/00-todo-api/ai-reference/claude-opus-4-6/)
 
-### Challenge 1: Auth System ⭐⭐⭐
-> JWT + OAuth2 + RBAC + 密码重置 + 邮件验证
-- 验收测试：41 个
-- [查看详情](challenges/01-auth-system/)
+### ✅ Challenge 1: Auth System ⭐⭐⭐
+> JWT + RBAC + 密码重置 + 邮件验证
+- 验收测试：17 个 | AI 结果：17/17 | 耗时：~3m
+- [查看详情](challenges/01-auth-system/SPEC.md) | [AI 实现](challenges/01-auth-system/ai-reference/claude-opus-4-6/)
 
-### Challenge 2: Landing Page ⭐
+### ✅ Challenge 2: Landing Page ⭐
 > 高转化落地页 + 响应式 + 表单验证 + 动画
-- 验收测试：15 个
-- [查看详情](challenges/02-landing-page/)
+- 验收测试：12 个 | AI 结果：12/12 | 耗时：~3m
+- [查看详情](challenges/02-landing-page/SPEC.md) | [AI 实现](challenges/02-landing-page/ai-reference/claude-opus-4-6/)
 
-### Challenge 3: Real-time Chat ⭐⭐⭐⭐
-> WebSocket 聊天室 + 在线状态 + 消息历史 + 文件上传
-- 验收测试：37 个
-- [查看详情](challenges/03-real-time-chat/)
+### ✅ Challenge 3: Real-time Chat ⭐⭐⭐⭐
+> WebSocket 聊天室 + 在线状态 + 消息历史
+- 验收测试：11 个 | AI 结果：11/11 | 耗时：~8m
+- [查看详情](challenges/03-real-time-chat/SPEC.md) | [AI 实现](challenges/03-real-time-chat/ai-reference/claude-opus-4-6/)
 
-### Challenge 4: E-commerce Checkout ⭐⭐⭐
+### 🔜 Challenge 4: E-commerce Checkout ⭐⭐⭐
 > 购物车 + 优惠券 + 支付集成 + 订单管理
-- 验收测试：52 个
-- [查看详情](challenges/04-ecommerce-checkout/)
+- 验收测试：待定
 
-### Challenge 5: PR Fix Bot ⭐⭐
+### 🔜 Challenge 5: PR Fix Bot ⭐⭐
 > 读取 GitHub issue → 分析代码 → 修复 → 提 PR
-- 验收测试：18 个
-- [查看详情](challenges/05-pr-fix-bot/)
+- 验收测试：待定
 
-## 📊 Benchmark 结果
+## 📊 关键发现
 
-完整结果见 [dashboard/index.html](dashboard/index.html)
-
-### 时间对比
+### 时间分布
 
 ```
-Todo API:     ████████████████████ 人类 2h15m    █ AI 12m
-Auth System:  ████████████████████████████ 人类 4h30m   ██ AI 22m
-Landing Page: ████████████████████████ 人类 3h       █ AI 6m
-Real-time:    ████████████████████████████████████ 人类 6h  ███ AI 31m
-E-commerce:   ██████████████████████████████ 人类 5h      ███ AI 38m
+纯前端 (HTML/CSS):   ████ ~3 min ← 最快
+REST API (Express):  ████ ~3-4 min ← 稳定
+WebSocket + REST:    ████████████ ~8 min ← 2-3x 慢
 ```
 
-### 成本明细
+### 一次性通过率
 
-| 模型 | 角色 | 占比 |
-|------|------|------|
-| GLM-5 Turbo | 项目经理（拆解+监控+review） | 25% |
-| Claude Opus 4.6 | 代码执行 | 75% |
+| 挑战 | 首次通过 | 需要修复 |
+|------|---------|---------|
+| Todo API | ✅ 22/22 | 0 |
+| Auth System | ✅ 17/17 | 0 |
+| Landing Page | ✅ 12/12 | 0 |
+| Real-time Chat | ✅ 11/11 | 0 |
 
-**5 个挑战总 token 消耗**：~180k input + ~45k output ≈ **$2.31**
+**Claude Opus 4.6 的一次性通过率：100%**
+
+### 教训
+
+1. **纯前端最快**（无编译、无依赖），WebSocket 最慢（异步状态管理）
+2. **npm install 占 30-40% 时间**，特别是在 Windows 上
+3. **一次性通过率 100%** 说明 SPEC 写得越精确，AI 返回越可靠
+4. **并行执行是关键**：3 个挑战串行 ~15 min，并行只要 8 min
 
 ## 🛠️ 为什么是 OpenClaw？
 
@@ -162,13 +160,6 @@ OpenClaw 不是聊天机器人。它是你的 **AI 开发指挥中心**。
 4. **📊 提交新模型基准** — 用 Gemini / GPT / DeepSeek 跑一遍
 
 详见 [CONTRIBUTING.md](CONTRIBUTING.md)
-
-## 📰 文章系列
-
-本项目配套微信公众号系列：
-1. 《AI 12 分钟 vs 人类 2 小时：一场开发对决的全程记录》
-2. 《GLM 当项目经理指挥 Claude Code：我是怎么把开发效率提升 10 倍的》
-3. 《$2.31 完成 5 个完整功能：AI 开发的真实成本》
 
 ## License
 
