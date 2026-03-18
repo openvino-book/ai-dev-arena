@@ -4,8 +4,8 @@
 > 
 > 用 Claude Code 完成真实开发挑战，全程自动化测试验收，可复现。
 
-[![Challenges](https://img.shields.io/badge/Challenges-4/6-orange)](#-challenge-list)
-[![Tests](https://img.shields.io/badge/Tests-62%2F62-brightgreen)](#-challenge-list)
+[![Challenges](https://img.shields.io/badge/Challenges-6/6-brightgreen)](#-challenge-list)
+[![Tests](https://img.shields.io/badge/Tests-91%2F91-brightgreen)](#-challenge-list)
 [![MIT License](https://img.shields.io/badge/License-MIT-blue)](LICENSE)
 
 ## ⚡ 30 秒看结果
@@ -16,10 +16,12 @@
 | 1 | Auth System (JWT+RBAC) | 17/17 ✅ | **~3 min** | ~350 行 TS | 2 |
 | 2 | Landing Page | 12/12 ✅ | **~3 min** | ~400 行 HTML/CSS/JS | 2 |
 | 3 | Real-time Chat (WebSocket) | 11/11 ✅ | **~8 min** | ~300 行 TS | 1 |
+| 4 | E-commerce Checkout | 17/17 ✅ | **~8 min** | ~350 行 TS | 1 |
+| 5 | PR Fix Bot | 12/12 ✅ | **~5 min** | ~400 行 TS | 1 |
 
-> 🤖 **全部 4 个挑战，62/62 测试通过，零人工干预**
-> ⏱ **并行执行总耗时：8 分钟**（最慢的 Chat 跑完即结束）
-> 💰 预估总成本：~$1.50（Claude Opus 4.6）
+> 🤖 **全部 6 个挑战，91/91 测试通过，零人工干预**
+> ⏱ **并行执行分两批：首批 8 分钟，次批 8 分钟**
+> 💰 预估总成本：~$3.00（Claude Opus 4.6）
 
 ## 🎬 演示
 
@@ -102,13 +104,15 @@ GLM-5 ← 复审
 - 验收测试：11 个 | AI 结果：11/11 | 耗时：~8m
 - [查看详情](challenges/03-real-time-chat/SPEC.md) | [AI 实现](challenges/03-real-time-chat/ai-reference/claude-opus-4-6/)
 
-### 🔜 Challenge 4: E-commerce Checkout ⭐⭐⭐
-> 购物车 + 优惠券 + 支付集成 + 订单管理
-- 验收测试：待定
+### ✅ Challenge 4: E-commerce Checkout ⭐⭐⭐
+> 购物车 + 优惠券 + 订单管理 + 库存管理
+- 验收测试：17 个 | AI 结果：17/17 | 耗时：~8m
+- [查看详情](challenges/04-ecommerce-checkout/SPEC.md) | [AI 实现](challenges/04-ecommerce-checkout/ai-reference/claude-opus-4-6/)
 
-### 🔜 Challenge 5: PR Fix Bot ⭐⭐
-> 读取 GitHub issue → 分析代码 → 修复 → 提 PR
-- 验收测试：待定
+### ✅ Challenge 5: PR Fix Bot ⭐⭐
+> Issue 分析 + 代码修复 + 补丁生成 + PR 创建
+- 验收测试：12 个 | AI 结果：12/12 | 耗时：~5m
+- [查看详情](challenges/05-pr-fix-bot/SPEC.md) | [AI 实现](challenges/05-pr-fix-bot/ai-reference/claude-opus-4-6/)
 
 ## 📊 关键发现
 
@@ -116,8 +120,9 @@ GLM-5 ← 复审
 
 ```
 纯前端 (HTML/CSS):   ████ ~3 min ← 最快
-REST API (Express):  ████ ~3-4 min ← 稳定
-WebSocket + REST:    ████████████ ~8 min ← 2-3x 慢
+REST API (Express):  ████ ~3-8 min ← 取决于复杂度
+WebSocket + REST:    ████████████ ~8 min ← 最慢
+业务逻辑 (电商/修复): ██████████ ~5-8 min ← 中等
 ```
 
 ### 一次性通过率
@@ -128,8 +133,10 @@ WebSocket + REST:    ████████████ ~8 min ← 2-3x 慢
 | Auth System | ✅ 17/17 | 0 |
 | Landing Page | ✅ 12/12 | 0 |
 | Real-time Chat | ✅ 11/11 | 0 |
+| E-commerce Checkout | ✅ 17/17 | 0 |
+| PR Fix Bot | ✅ 12/12 | 0 |
 
-**Claude Opus 4.6 的一次性通过率：100%**
+**Claude Opus 4.6 的一次性通过率：100%（91/91）**
 
 ### 教训
 
